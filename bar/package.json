@@ -1,0 +1,14 @@
+{
+    "author": "andre",
+    "name": "@rules_jest_example/bar",
+    "private": true,
+    "version": "1.0.0",
+    "main": "src/index",
+    "devDependencies": {
+        "typescript": "4.9.4"
+    },
+    "files": [
+        "src"
+    ],
+    "types": "src/index"
+}

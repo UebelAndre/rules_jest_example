@@ -1,0 +1,21 @@
+{
+    "author": "andre",
+    "name": "@rules_jest_example/foo",
+    "private": true,
+    "version": "1.0.0",
+    "main": "src/index",
+    "dependencies": {
+        "@rules_jest_example/bar": "workspace:*"
+    },
+    "devDependencies": {
+        "typescript": "4.9.4",
+        "jest": "29.5.0",
+        "jest-cli": "29.5.0",
+        "jest-junit": "16.0.0",
+        "ts-jest": "29.1.0",
+        "@types/jest": "29.5.0"
+    },
+    "scripts": {
+        "test": "jest"
+    }
+}

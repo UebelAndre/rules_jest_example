@@ -1,0 +1,61 @@
+load("@aspect_rules_jest//jest:defs.bzl", "jest_test")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages()
+
+ts_config(
+    name = "tsconfig",
+    src = "tsconfig.json",
+)
+
+ts_project(
+    name = "foo_ts",
+    srcs = glob(
+        include = ["src/**/*.ts"],
+        exclude = ["src/**/*.test.ts"],
+    ),
+    # TODO: There are many issues that seem to only come up from using
+    # workers. These should be reported and links to upstream issues
+    # linked here.
+    resolve_json_module = True,
+    source_map=True,
+    declaration=True,
+    supports_workers = False,
+    tsconfig = ":tsconfig",
+    deps = [
+        ":node_modules",
+    ],
+)
+
+ts_project(
+    name = "foo_test_ts",
+    srcs = glob(
+        include = ["src/**/*.test.ts"],
+    ) + [
+        "setupTests.ts",
+    ],
+    resolve_json_module = True,
+    source_map=True,
+    declaration=True,
+    # TODO: There are many issues that seem to only come up from using
+    # workers. These should be reported and links to upstream issues
+    # linked here.
+    supports_workers = False,
+    tsconfig = ":tsconfig",
+    deps = [
+        ":node_modules",
+    ],
+)
+
+jest_test(
+    name = "foo_tests",
+    chdir = package_name(),
+    config = "jest.config.bazel.js",
+    data = [
+        ":foo_test_ts",
+        ":foo_ts",
+    ],
+    node_modules = ":node_modules",
+    tags = ["requires-network"],
+)
